@@ -10,6 +10,8 @@ End Enum
 
 Sub MsgBoxPlus_Caller()
     'F5 or click Run to move through stops
+    MsgBoxPlus 7 'all functions but no message, will break into VBE
+    Stop
     MsgBoxPlus 7, "<msg>", "<debugMsg>"
     Stop
     MsgBoxPlus doNothing, "<msg>", "<debugMsg>"
@@ -25,7 +27,8 @@ End Sub
 
 Public Function MsgBoxPlus(ByVal whoaController As mPlus, Optional ByVal msg As String, Optional debugMsg As String) As Long
     'returns long value of first msgbox keypress vbCancel = 2, vbOK = 1
-    'bell + msg will display a message
+    'sum mPlus enums for multiple functions
+    'bell + msg will display a message with a sound alert
     '
     Dim mbpResponse As Long, debugMsgAlreadyExposed, x As String, y As String, beepOn As Boolean
     If debugMsg <> "" Then Debug.Print debugMsg
