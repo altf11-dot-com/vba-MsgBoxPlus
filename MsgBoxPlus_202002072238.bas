@@ -46,7 +46,7 @@ Public Function MsgBoxPlus(ByVal whoaController As mPlus, Optional ByVal msg As 
         'msgbox on = 2's bit on
         whoaController = whoaController Mod 2
         If beepOn Then Beep
-        mbpResponse = MsgBox(IIf(msg & debugMsg = "", "<no msg>", msg & IIf(debugMsg = "", "", "check immediate window")), IIf(whoaController > 0, vbOKOnly, vbOKCancel), IIf(whoaController > 0, "", "OKAY=Continue, Cancel=Break"))
+        mbpResponse = MsgBox(IIf(msg & debugMsg = "", "<no msg>", msg & IIf(debugMsg = "", "", vbLf & "check immediate window")), IIf(whoaController > 0, vbOKOnly, vbOKCancel), IIf(whoaController > 0, "", "OKAY=Continue, Cancel=Break"))
     End If
     If whoaController = 1 Then
         If beepOn Then Beep
