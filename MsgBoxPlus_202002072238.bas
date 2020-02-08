@@ -24,6 +24,9 @@ End Sub
 
 
 Public Function MsgBoxPlus(ByVal whoaController As mPlus, Optional ByVal msg As String, Optional debugMsg As String) As Long
+    'returns long value of first msgbox keypress vbCancel = 2, vbOK = 1
+    'bell + msg will display a message
+    '
     Dim mbpResponse As Long, debugMsgAlreadyExposed, x As String, y As String, beepOn As Boolean
     If debugMsg <> "" Then Debug.Print debugMsg
     DoEvents
