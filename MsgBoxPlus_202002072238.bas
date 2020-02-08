@@ -9,19 +9,23 @@ Public Enum mPlus
 End Enum
 
 Sub MsgBoxPlus_Caller()
+    Dim result As Long
     'F5 or click Run to move through stops
-    MsgBoxPlus 7 'all functions but no message, will break into VBE
-    Stop
-    MsgBoxPlus 7, "<msg>", "<debugMsg>"
-    Stop
-    MsgBoxPlus doNothing, "<msg>", "<debugMsg>"
-    Stop
-    MsgBoxPlus bell, "<msg>", "<debugMsg>"
-    Stop
-    MsgBoxPlus alwaysBreak, "<msg>", "<debugMsg>"
-    Stop
-    Debug.Print MsgBoxPlus(msg, "<msg>", "<debugMsg>")
-    Stop
+    result = MsgBoxPlus(bell + msg, "Hello world!") 'all functions but no message, will break into VBE
+    Debug.Print "returned = " & IIf(result = vbCancel, "vbCancel ", "vbOK")
+'    Stop
+'    MsgBoxPlus 7 'all functions but no message, will break into VBE
+'    Stop
+'    MsgBoxPlus 7, "<msg>", "<debugMsg>"
+'    Stop
+'    MsgBoxPlus doNothing, "<msg>", "<debugMsg>"
+'    Stop
+'    MsgBoxPlus bell, "<msg>", "<debugMsg>"
+'    Stop
+'    MsgBoxPlus alwaysBreak, "<msg>", "<debugMsg>"
+'    Stop
+'    Debug.Print MsgBoxPlus(msg, "<msg>", "<debugMsg>")
+'    Stop
 End Sub
 
 
@@ -30,7 +34,7 @@ Public Function MsgBoxPlus(ByVal whoaController As mPlus, Optional ByVal msg As 
     'sum mPlus enums for multiple functions
     'bell + msg will display a message with a sound alert
     '
-    Dim mbpResponse As Long, debugMsgAlreadyExposed, x As String, y As String, beepOn As Boolean
+    Dim inputBoxResult As String, secretCode As String, beepOn As Boolean
     If debugMsg <> "" Then Debug.Print debugMsg
     DoEvents
     If whoaController > 7 Then
@@ -46,21 +50,24 @@ Public Function MsgBoxPlus(ByVal whoaController As mPlus, Optional ByVal msg As 
         'msgbox on = 2's bit on
         whoaController = whoaController Mod 2
         If beepOn Then Beep
-        mbpResponse = MsgBox(IIf(msg & debugMsg = "", "<no msg>", msg & IIf(debugMsg = "", "", vbLf & "check immediate window")), IIf(whoaController > 0, vbOKOnly, vbOKCancel), IIf(whoaController > 0, "", "OKAY=Continue, Cancel=Break"))
+        beepOn = False 'don't want to beep twice
+        MsgBoxPlus = MsgBox(IIf(msg & debugMsg = "", "<no msg>", msg & IIf(debugMsg = "", "", vbLf & "check immediate window")), IIf(whoaController > 0, vbOKOnly, vbOKCancel), IIf(whoaController > 0, "", "OKAY=Continue, Cancel=Break"))
     End If
     If whoaController = 1 Then
         If beepOn Then Beep
+        beepOn = False 'don't want to beep twice
         Stop
-    ElseIf mbpResponse = vbCancel Then
-        y = "the secret code"
-        If Now < #1/1/2020 7:00:00 PM# Then y = "Y" 'set to future date/time to reduce typing secret code
-        x = InputBox("Type " & IIf(y = "", "<ZLS>", y) & " to BREAK into VBE, type CLOSE to terminate." & vbLf & "(If not sure, type CLOSE, no data will be lost)", "")
-        If UCase(y) = UCase(x) Then
+    ElseIf MsgBoxPlus = vbCancel Then
+        secretCode = "the secret code"
+        If Now < #1/1/2020 7:00:00 PM# Then secretCode = "Y" 'set to future date/time to reduce typing secret code
+        inputBoxResult = InputBox("type " & IIf(secretCode = "", "<ZLS>", secretCode) & " to BREAK into VBE," & vbLf & "type CLOSE to terminate." & vbLf & "(If not sure, type CLOSE)", "CLOSE")
+        If UCase(inputBoxResult) = UCase(secretCode) Then
             Stop 'use Set Next Statement (Ctrl+F9) to skip over End if desired
             End 'terminates all procedures
+        ElseIf inputBoxResult = "CLOSE" Then
+            End
         End If
     Else
         If beepOn Then Beep
     End If
-    MsgBoxPlus = mbpResponse
 End Function
