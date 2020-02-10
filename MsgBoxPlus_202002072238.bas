@@ -65,7 +65,7 @@ Public Function MsgBoxPlus(ByVal whoaController As mPlus, Optional ByVal msg As 
                 "Type " & IIf(secretCode = "", "<ZLS>", secretCode) & " to BREAK into VBE," & vbLf & _
                 "type END to terminate processing," & vbLf & _
                 "CLICK OK or Cancel to continue ..." & vbLf & _
-                "(If not sure, click OKAY) and start over.", "AltF11.com jeff@jeffbrown.us", "OK")
+                "(If not sure, click OKAY and continue.", "AltF11.com jeff@jeffbrown.us", "OK")
             If UCase(inputBoxResult) = UCase(secretCode) Then
                 Stop
             ElseIf UCase(Left(inputBoxResult, 3)) = "END" Then
