@@ -61,9 +61,13 @@ Public Function MsgBoxPlus(ByVal whoaController As mPlus, Optional ByVal msg As 
         secretCode = "the secret code"
         If Now < #1/1/2020 7:00:00 PM# Then secretCode = "Y" 'set to future date/time to reduce typing secret code
         Do
-            inputBoxResult = InputBox("Type " & IIf(secretCode = "", "<ZLS>", secretCode) & " to BREAK into VBE," & vbLf & "type TERMINATE to terminate," & vbLf & "CLICK cancel to continue ..." & vbLf & "(If not sure, click OKAY)", "User Requested Cancel", "TERMINATE")
+            inputBoxResult = InputBox( _
+                "Type " & IIf(secretCode = "", "<ZLS>", secretCode) & " to BREAK into VBE," & vbLf & _
+                "type TERMINATE to terminate," & vbLf & _
+                "CLICK cancel to continue ..." & vbLf & _
+                "(If not sure, click OKAY)", "AltF11.com jeff@jeffbrown.us", "TERMINATE")
             If UCase(inputBoxResult) = UCase(secretCode) Then
-                Stop 'use Set Next Statement (Ctrl+F9) to skip over End if desired
+                Stop
             ElseIf UCase(Left(inputBoxResult, 9)) = "TERMINATE" Then
                 End
             Else
