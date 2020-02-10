@@ -34,7 +34,7 @@ Public Function MsgBoxPlus(ByVal whoaController As mPlus, Optional ByVal msg As 
     'sum mPlus enums for multiple functions
     'bell + msg will display a message with a sound alert
     '
-    Dim inputBoxResult As String, secretCode As String, beepOn As Boolean
+    Dim inputBoxResult As String, secretCode As String, beepOn As Boolean, loopCount As Long
     If debugMsg <> "" Then Debug.Print debugMsg
     DoEvents
     If whoaController > 7 Then
@@ -60,13 +60,17 @@ Public Function MsgBoxPlus(ByVal whoaController As mPlus, Optional ByVal msg As 
     ElseIf MsgBoxPlus = vbCancel Then
         secretCode = "the secret code"
         If Now < #1/1/2020 7:00:00 PM# Then secretCode = "Y" 'set to future date/time to reduce typing secret code
-        inputBoxResult = InputBox("Type " & IIf(secretCode = "", "<ZLS>", secretCode) & " to BREAK into VBE," & vbLf & "type CLOSE to terminate." & vbLf & "(If not sure, type CLOSE)", "HELLO", "CANCEL - TERMINATE")
-        If UCase(inputBoxResult) = UCase(secretCode) Then
-            Stop 'use Set Next Statement (Ctrl+F9) to skip over End if desired
-            End 'terminates all procedures
-        ElseIf UCase(Left(inputBoxResult, 6)) = "CANCEL" Then
-            End
-        End If
+        Do
+            inputBoxResult = InputBox("Type " & IIf(secretCode = "", "<ZLS>", secretCode) & " to BREAK into VBE," & vbLf & "type CLOSE to terminate." & vbLf & "(If not sure, type CLOSE)", "HELLO", "CANCEL - TERMINATE")
+            If UCase(inputBoxResult) = UCase(secretCode) Then
+                Stop 'use Set Next Statement (Ctrl+F9) to skip over End if desired
+            ElseIf UCase(Left(inputBoxResult, 6)) = "CANCEL" Then
+                End
+            Else
+                MsgBox "Procedure will continue."
+                Exit Do
+            End If
+        Loop
     Else
         If beepOn Then Beep
     End If
